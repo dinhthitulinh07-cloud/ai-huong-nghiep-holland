@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Huong Nghiep Holland - RIASEC</title>
+<style>
+body{font-family:Arial;max-width:800px;margin:0 auto;padding:20px;background:#f0f8ff}
+.card{background:white;padding:20px;border-radius:12px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+button{background:#0066ff;color:white;border:none;padding:12px 24px;border-radius:8px;font-size:16px;cursor:pointer;width:100%}
+.q{margin:15px 0}.q p{font-weight:bold}
+</style>
+</head>
+<body>
+<h1>🎯 Trac nghiem Huong Nghiep Holland (60 cau)</h1>
+<div class="card">
+<p>Chon muc do yeu thich: 2=Rat thich, 1=Thich, 0=Khong thich</p>
+<div id="quiz"></div>
+<button onclick="tinhDiem()">Xem ket qua -> Ma Holland cua ban</button>
+</div>
+<div id="result" class="card" style="display:none"></div>
+<script>
+const questions=[
+"R: Sua chua do dien, xe co","R: Lam viec ngoai troi, trong cay","R: Lap rap, che tao do vat","R: Lai xe, van hanh may moc","R: Hoc Cong nghe, thuc hanh","R: Lam viec doc lap","R: Hoat dong the thao","R: Tim hieu dong co, robot","R: Dung cu co khi, dien tu","R: Nghe xay dung, co khi",
+"I: Giai toan kho, cau do logic","I: Doc sach khoa hoc","I: Phan tich so lieu","I: Tim nguyen nhan su viec","I: Hoc Toan Ly Hoa Sinh","I: Lam viec trong phong thi nghiem","I: Nghien cuu cai moi","I: Dat cau hoi tai sao","I: Viet bao cao","I: Nghe bac si, lap trinh",
+"A: Ve, thiet ke","A: Hat, choi nhac cu","A: Viet truyen, tho","A: Chup anh, quay phim","A: Lam viec tu do","A: Y tuong doc dao","A: Trang tri phong, handmade","A: Van nghe, dien kich","A: Thiet ke quan ao","A: Nghe hoa si, Youtuber",
+"S: Giup do nguoi khac","S: Day hoc, huong dan","S: Lam viec nhom","S: Tinh nguyen","S: Tro chuyen, lang nghe","S: Cham soc tre em, nguoi benh","S: Giai quyet mau thuan","S: Hoc Van Su Dia","S: Dong cam","S: Nghe giao vien, tam ly",
+"E: Lam lop truong, lanh dao","E: Thuyet phuc nguoi khac","E: Kinh doanh, kiem tien","E: Thi, tranh bien","E: Lap ke hoach su kien","E: Noi truoc dam dong","E: Thu thach, rui ro","E: Quan ly tien bac","E: Y tuong khoi nghiep","E: Doanh nhan, marketing",
+"C: Lam viec voi so sach","C: Sap xep ngan nap","C: Lam theo quy trinh","C: Can than, ti mi","C: Dung Excel, quan ly data","C: Cong viec van phong","C: Kiem tra giay to","C: Lap thoi gian bieu","C: May tinh, van ban","C: Ke toan, ngan hang"
+];
+let html="";
+questions.forEach((q,i)=>{
+ html+=`<div class="q"><p>${i+1}. ${q}</p>
+ <select id="q${i}"><option value="0">0 - Khong thich</option><option value="1">1 - Thich</option><option value="2">2 - Rat thich</option></select></div>`;
+});
+document.getElementById("quiz").innerHTML=html;
+
+function tinhDiem(){
+ let diem={R:0,I:0,A:0,S:0,E:0,C:0};
+ questions.forEach((q,i)=>{
+  let nhom=q[0];
+  let v=parseInt(document.getElementById("q"+i).value);
+  diem[nhom]+=v;
+ });
+ let sorted=Object.entries(diem).sort((a,b)=>b[1]-a[1]);
+ let ma=sorted.slice(0,3).map(x=>x[0]).join("");
+ let moTa={R:"Ky thuat, thuc te",I:"Nghien cuu, phan tich",A:"Nghe thuat, sang tao",S:"Xa hoi, giup do",E:"Quan ly, kinh doanh",C:"Nghiep vu, van phong"};
+ document.getElementById("result").style.display="block";
+ document.getElementById("result").innerHTML=`<h2>Ket qua cua ban</h2>
+ <p>Diem: R=${diem.R}, I=${diem.I}, A=${diem.A}, S=${diem.S}, E=${diem.E}, C=${diem.C}</p>
+ <h3 style="color:#0066ff">Ma Holland 3 chu cai: ${ma}</h3>
+ <p><b>${sorted[0][0]}:</b> ${moTa[sorted[0][0]]} - ${sorted[0][1]} diem</p>
+ <p><b>${sorted[1][0]}:</b> ${moTa[sorted[1][0]]} - ${sorted[1][1]} diem</p>
+ <p><b>${sorted[2][0]}:</b> ${moTa[sorted[2][0]]} - ${sorted[2][1]} diem</p>
+ <p>Goi y: Voi ma ${ma}, ban phu hop cac nghe trong file 60_nghe.xlsx co chua ${ma}. Vi du: ${ma.includes("I")?"Lap trinh, Bac si, Data":""} ${ma.includes("A")?"Thiet ke, Content, Game":""} ${ma.includes("S")?"Giao vien, Tam ly":""} ${ma.includes("E")?"Marketing, Quan tri KD":""} ${ma.includes("R")?"Ky su co khi, Xay dung":""} ${ma.includes("C")?"Ke toan, Logistics":""}</p>
+ <p><i>Tip cho NCKH: Ket hop them du lieu luong va nhu cau nhan luc trong file 60 nghe de tu van chi tiet hon.</i></p>`;
+ window.scrollTo(0,document.body.scrollHeight);
+}
+</script>
+</body>
+</html>
